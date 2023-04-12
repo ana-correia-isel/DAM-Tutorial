@@ -1,0 +1,135 @@
+
+\def\UCName{Desenvolvimento de Aplicações Móveis\\
+	Mobile Application Development\\
+	DAM\\}
+
+
+\chead{{\tutorialNum} - \longTitle}
+
+
+
+\definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+
+\DeclareFixedFont{\bigsf}{T1}{phv}{b}{n}{1.5cm}
+
+\backgroundsetup{
+	scale=1,
+	angle=0,
+	opacity=1,
+	contents={
+		\begin{tikzpicture}[remember picture,overlay]
+		\node[inner sep=0pt] at (-6.5cm, 12.45cm) {
+			\includegraphics[width=7cm]{../Resources/LogoISEL} };
+		\path [fill=titlepagecolor] (-0.5\paperwidth,5) rectangle (0.5\paperwidth,10);
+		%     \node[inner sep=0pt] at (0, -5) {
+		%     	\includegraphics[width=5cm]{Img/World.png} };
+		\end{tikzpicture}
+	}
+}
+\makeatletter
+\def\printauthor{
+	{\large \@author}
+}
+\makeatother
+\author{
+	Ana Duarte Correia \\
+	\texttt{ana.correia@isel.pt}
+	%
+	\vspace{0.7cm} \\
+	%
+	Pedro Fazenda  \\
+	\texttt{pedro.fazenda@isel.pt}
+}
+
+
+
+
+
+\lstset{
+	basicstyle=\fontsize{10}{12}\selectfont\ttfamily
+}
+
+% Note and counter =================================
+\newcounter{noteCounter}
+\newcommand{\note}[1]{\stepcounter{noteCounter}\textbf{Note \thenoteCounter:} #1}
+
+
+% Listings =================================
+\definecolor{DarkBlue}{rgb}{0.0, 0.0, 0.55}
+\definecolor{DarkGreen}{rgb}{0.0, 03, 0.2}
+\definecolor{OliveGreenLight}{rgb}{0.55, 0.55, 0.1} %
+
+\lstdefinestyle{DAMJava}{
+	language=java,
+	tabsize=3, frame=single, captionpos=b,
+	basicstyle=\fontsize{9}{11}\selectfont\ttfamily,
+	showstringspaces=false,
+	keywordstyle=\color{DarkBlue},
+	stringstyle=\color{OliveGreen},
+	commentstyle=\color{gray},
+	%numberstyle=\color{red},
+	keywordstyle=[2]\color{violet},
+	keywordstyle=[3]\bf\fontsize{9}{11}\selectfont\ttfamily,
+	keywordstyle=[4]\color{OliveGreenLight},
+	%keywords=[2]{},
+	keywords=[4]{@Override},
+}
+
+\newcommand{\DAMVioletSet}{2}
+\newcommand{\DAMBoldSet}{3}
+\newcommand{\DAMAnnotationSet}{4}
+
+%Use this:
+\lstdefinestyle{DAMJava2}{
+	style=DAMJava,
+	morekeywords=[\DAMBoldSet]{Toast},
+	morekeywords=[\DAMAnnotationSet]{onCreate},
+}
+
+\lstdefinelanguage{XML} {
+	basicstyle=\ttfamily\color{DarkBlue},
+	%	morestring=[s][\color{black}]{>}{<},
+	%	morestring=[b]",
+	%	moredelim=[s][\bfseries\color{DarkBlue}]{<}{\ },
+	%	moredelim=[l][\bfseries\color{DarkBlue}]{/>},
+	%	moredelim=[l][\bfseries\color{DarkBlue}]{>},
+	%	%morestring=[s]{>}{<},
+	%	%
+	%	morestring=[s][\color{OliveGreen}]{"}{"},
+	%	morestring=[s][\color{black}]{>}{<},
+	%	%
+	%	morecomment=[s]{<?}{?>},
+	%morestring=[s][\color{red}]{<}{\ },
+	morestring=[s][\color{OliveGreen}]{"}{"},
+	morestring=[s][\color{black}]{>}{<},
+	morecomment=[s]{<?}{?>},
+	morecomment=[s][\color{dkgreen}]{<!--}{-->},
+	%
+	stringstyle=\color{black},
+	identifierstyle=\color{DarkBlue},
+	morekeywords={xmlns, version, type},
+	keywordstyle=[2]\color{violet},
+	keywords=[2]{android, app, tools},
+}
+
+\newcommand{\DAMXMLElems}{3}
+
+\lstdefinestyle{DAMXML}{
+	language=XML,
+	tabsize=3, frame=single, captionpos=b,
+	basicstyle=\fontsize{9}{11}\selectfont\ttfamily,
+	showstringspaces=false,
+	keywordstyle=\color{DarkBlue},
+	stringstyle=\color{OliveGreen},
+	commentstyle=\color{gray},
+	%numberstyle=\color{red},
+	%keywordstyle=[2]\color{violet},
+	keywordstyle=[3]\bf\fontsize{9}{11}\selectfont\ttfamily\color{DarkBlue},
+}
+
+% in cases of open one element, add space, tab, space
+% <TextView - space, tab, space
+
+
+% Macros =================================
+\newcommand{\blt}             {BLT\xspace}            % BLT

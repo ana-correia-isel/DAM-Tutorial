@@ -1,0 +1,91 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%+--------------------------------------------------------------------------------------------------
+%|
+%|                                    Title Page
+%|
+%+---------------------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+	
+	\BgThispage
+	\newgeometry{left=1cm,right=1cm, bottom=1cm}
+	\vspace*{0.8cm}
+	\noindent
+	\textcolor{orange}{\Huge \textbf{\UCName}}
+	
+	\begin{flushright}
+		\textcolor{white}{\bigsf \mainTitle}
+		%\hspace*{1cm}
+	\end{flushright}  
+	
+	\vspace*{0.6cm}\par
+	
+	\noindent
+	\begin{minipage}{0.3\linewidth}
+		\begin{flushright}
+			\printauthor
+		\end{flushright}
+	\end{minipage} 
+	%
+	\hspace{15pt}
+	%
+	\begin{minipage}{0.02\linewidth}
+		\rule{1pt}{175pt}
+	\end{minipage} \hspace{-10pt}
+	%
+	\begin{minipage}{0.6\linewidth}
+		\begin{abstract} 
+			\noindent
+			\justify
+			\summary
+		\end{abstract}
+		\vspace{0mm}
+		\begin{center}
+			\Large \textcolor{orange}{\textbf{Deadline:}}
+			\deadline 
+		\end{center}
+	\end{minipage}
+	
+	\vspace{0.5cm}
+	
+	\begin{figure}[h]
+		\centering 
+		\coverImage
+	\end{figure}
+	
+	\vspace{0.5cm}
+	
+	\begin{center}
+		\Huge \textcolor{blue} {\longTitle} \\
+		\vspace*{1.5cm}
+		\normalsize 
+		\date
+	\end{center}  
+	
+\end{titlepage}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\restoregeometry
+\newgeometry{left=2.5cm, right=2.5cm, top=2cm, bottom=2cm}
+
+\fontsize{12}{16}\selectfont
+
+\setcounter{section}{0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+
+\newpage
+
+\listoffigures
+
+
+\newpage
+\setcounter{page}{1}
+\cfoot{\thepage}
