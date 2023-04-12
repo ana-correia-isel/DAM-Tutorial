@@ -1,9 +1,9 @@
 # Fdb version 3
-["pdflatex"] 1681290298 "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/docs/Tutorial 3/Tutorial_3.tex" "Tutorial_3.pdf" "Tutorial_3" 1681290301
+["pdflatex"] 1681292999 "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3/Tutorial_3.tex" "Tutorial_3.pdf" "Tutorial_3" 1681293002
   "../Resources/LogoISEL.pdf" 1614961816 10594 097d044d0f2e5ec21dae38e0e68b867e ""
   "../Resources/TutsSettings.tex" 1619452052 3359 bcbce98b7e5ba61a9aa3c4898903eee7 ""
   "../Resources/TutsTitlePageTOCAndPrepare.tex" 1614961816 1789 fed0bf884fb9dc916e3c623a03f37830 ""
-  "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/docs/Tutorial 3/Tutorial_3.tex" 1681290297 92915 563c212fe18204e44204406cb0819f17 ""
+  "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3/Tutorial_3.tex" 1681292995 93217 640da88a85de18a85f6ff9ea632add9b ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/inconsolata/i4-ot1-0.enc" 1561323594 2496 4d35740f3a177992ff7b134746c0a1db ""
@@ -187,11 +187,11 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1674213866 2826442 cd7570fd6ce6a2dc676a5d349f985934 ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "Tutorial_3.aux" 1681290301 13379 e2d983150c0c8f72d3e6f4e3c98e0134 "pdflatex"
-  "Tutorial_3.lof" 1681290301 545 6a3db81d5c9821408ec4ad6489d1daae "pdflatex"
-  "Tutorial_3.out" 1681290301 3829 8965c0716bb36e8edef1272d6689d5f6 "pdflatex"
-  "Tutorial_3.tex" 1681290297 92915 563c212fe18204e44204406cb0819f17 ""
-  "Tutorial_3.toc" 1681290301 2223 d2e077d7918047d0259ba58ceb8967e0 "pdflatex"
+  "Tutorial_3.aux" 1681293001 13594 d91d2a647a1fd484c8b0a9de63309c4c "pdflatex"
+  "Tutorial_3.lof" 1681293001 545 6a3db81d5c9821408ec4ad6489d1daae "pdflatex"
+  "Tutorial_3.out" 1681293001 3829 8965c0716bb36e8edef1272d6689d5f6 "pdflatex"
+  "Tutorial_3.tex" 1681292995 93217 640da88a85de18a85f6ff9ea632add9b ""
+  "Tutorial_3.toc" 1681293001 2224 106a2e9e3872a2b6b56ffe536a529448 "pdflatex"
   "imgs/jetpack.png" 1619021601 396113 7f75e2bdadded95a0f56c2443d8e4d0e ""
   "imgs/jetpackCover.png" 1619453142 25620 665f6d23c12d6e74eeb01f061ed28f00 ""
   "imgs/nav_xml.png" 1681232999 111384 b6b7db04c2efb0fcf816a6e7918e1603 ""

@@ -406,7 +406,7 @@ These resources are divided into the following folders:
 \end{enumerate}
 You should copy or import these files into the new project.
 
-Add to /build.gradle the fowolling lines in correct places:
+Add to /build.gradle the following lines in correct places:
 
 \begin{lstlisting}[caption={/build.gradle.}, label={code:gradle}, language=XML]
     plugins {
@@ -438,6 +438,14 @@ Add to /build.gradle the fowolling lines in correct places:
     implementation "com.github.skydoves:progressview:1.1.3"
     }
     
+\end{lstlisting}
+
+
+Add to AndroidManifest the following lines:
+
+\begin{lstlisting}[caption={Android Manifest}, label={code:android_manifest}, language=XML]
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 \end{lstlisting}
 
 

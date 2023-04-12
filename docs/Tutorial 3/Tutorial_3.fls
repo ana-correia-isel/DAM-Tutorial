@@ -1,8 +1,8 @@
-PWD /Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/docs/Tutorial 3
+PWD /Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3
 INPUT /usr/local/texlive/2022/texmf.cnf
 INPUT /usr/local/texlive/2022/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/docs/Tutorial 3/Tutorial_3.tex
+INPUT /Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3/Tutorial_3.tex
 OUTPUT Tutorial_3.log
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/base/article.cls
