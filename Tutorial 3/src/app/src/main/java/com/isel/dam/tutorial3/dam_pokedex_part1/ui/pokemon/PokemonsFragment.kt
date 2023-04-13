@@ -20,6 +20,7 @@ import com.isel.dam.tutorial3.dam_pokedex_part1.R
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.Pokemon
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonRegion
 import com.isel.dam.tutorial3.dam_pokedex_part1.databinding.FragmentPokemonsBinding
+import com.isel.dam.tutorial3.dam_pokedex_part1.ui.events.OnItemClickedListener
 import com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokemondetail.PokemonDetailFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -71,7 +72,10 @@ import kotlinx.coroutines.launch
 
 }*/
 
-class PokemonsFragment : Fragment() {
+class PokemonsFragment(
+    var pkClickListener: OnItemClickedListener? = null
+) : Fragment() {
+
     private var _binding: FragmentPokemonsBinding? = null
     private val viewModel: PokemonsViewModel by viewModels()
 
@@ -87,12 +91,24 @@ class PokemonsFragment : Fragment() {
 
         val pkAdapter = PokemonsAdapter( itemClickedListener = {
 
-            val bundle = bundleOf(
-                "pokemon" to it
 
-            )
 
-            val parent = parentFragment
+            if(pkClickListener != null)
+            {
+                pkClickListener?.invoke(it)
+            }else
+            {
+               val bundle = bundleOf(
+                    "pokemon" to it)
+
+                findNavController().navigate(
+                    R.id.action_nav_pokemons_to_pokemonDetailFragment,
+                    bundle,
+                    null
+                )
+            }
+
+            /*val parent = parentFragment
 
             if(parent != null && parent !is NavHostFragment)
             {
@@ -110,7 +126,7 @@ class PokemonsFragment : Fragment() {
                     bundle,
                     null
                 )
-            }
+            }*/
 
 
 
@@ -156,11 +172,6 @@ class PokemonsFragment : Fragment() {
         }
 
         return root
-    }
-
-    private fun navigateToParentFragment() {
-        val action = PokemonsFragmentDirections.actionNavPokemonsToPokemonDetailFragment()
-        findNavController().navigate(action)
     }
     override fun onDestroyView() {
         super.onDestroyView()

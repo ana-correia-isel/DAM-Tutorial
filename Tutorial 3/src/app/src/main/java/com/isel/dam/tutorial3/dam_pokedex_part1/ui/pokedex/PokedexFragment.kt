@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.isel.dam.tutorial3.dam_pokedex_part1.R
 import com.isel.dam.tutorial3.dam_pokedex_part1.databinding.FragmentPokedexBinding
 import com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokemon.PokemonsFragment
@@ -26,7 +28,19 @@ class PokedexFragment : Fragment() {
         _binding = FragmentPokedexBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val childFragment = PokemonsFragment()
+        val childFragment = PokemonsFragment(pkClickListener = {
+
+            val bundle = bundleOf(
+                "pokemon" to it
+            )
+
+            findNavController().navigate(
+                R.id.action_nav_pokedex_to_pokemonDetailFragment,
+                bundle,
+                null
+            )
+        })
+
         childFragmentManager.beginTransaction()
             .add(R.id.pokemon_list_fragment, childFragment)
             .commit()
