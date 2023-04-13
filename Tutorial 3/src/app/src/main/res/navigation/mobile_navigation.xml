@@ -11,6 +11,9 @@
         android:label="@string/menu_pokedex"
         tools:layout="@layout/fragment_pokedex">
 
+        <action
+            android:id="@+id/action_nav_pokedex_to_pokemonDetailFragment"
+            app:destination="@id/pokemonDetailFragment" />
     </fragment>
 
     <fragment
@@ -41,5 +44,13 @@
         android:id="@+id/nav_pokemons"
         android:name="com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokemon.PokemonsFragment"
         android:label="@string/pokemons"
-        tools:layout="@layout/fragment_pokemons" />
+        tools:layout="@layout/fragment_pokemons" >
+        <action
+            android:id="@+id/action_nav_pokemons_to_pokemonDetailFragment"
+            app:destination="@id/pokemonDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonDetailFragment"
+        android:name="com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokemondetail.PokemonDetailFragment"
+        android:label="PokemonDetailFragment" />
 </navigation>

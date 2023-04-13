@@ -12,12 +12,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.isel.dam.tutorial3.dam_pokedex_part1.R
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.Pokemon
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonRegion
 import com.isel.dam.tutorial3.dam_pokedex_part1.databinding.FragmentPokemonsBinding
+import com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokemondetail.PokemonDetailFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -82,8 +85,48 @@ class PokemonsFragment : Fragment() {
         _binding = FragmentPokemonsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val pkAdapter = PokemonsAdapter()
+        val pkAdapter = PokemonsAdapter( itemClickedListener = {
+
+            val bundle = bundleOf(
+                "pokemon" to it
+
+            )
+
+            val parent = parentFragment
+
+            if(parent != null && parent !is NavHostFragment)
+            {
+                val navController = Navigation.findNavController(requireParentFragment().requireView())
+                navController.navigate(
+                    R.id.action_nav_pokedex_to_pokemonDetailFragment,
+                    bundle,
+                    null
+                )
+
+            }else
+            {
+                findNavController().navigate(
+                    R.id.action_nav_pokemons_to_pokemonDetailFragment,
+                    bundle,
+                    null
+                )
+            }
+
+
+
+
+
+
+            /*findNavController()
+                .navigate(
+                    R.id.action_nav_pokemons_to_pokemonDetailFragment,
+                    bundle,
+                    null
+                )*/
+        })
         binding?.pokemonsRecyclerView?.adapter = pkAdapter
+
+
 
         val region = arguments?.getParcelable("region", PokemonRegion::class.java)
 
@@ -115,6 +158,10 @@ class PokemonsFragment : Fragment() {
         return root
     }
 
+    private fun navigateToParentFragment() {
+        val action = PokemonsFragmentDirections.actionNavPokemonsToPokemonDetailFragment()
+        findNavController().navigate(action)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

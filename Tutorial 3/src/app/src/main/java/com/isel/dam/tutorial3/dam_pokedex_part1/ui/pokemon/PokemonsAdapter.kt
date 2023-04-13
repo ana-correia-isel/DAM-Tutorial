@@ -55,12 +55,16 @@ import com.isel.dam.tutorial3.dam_pokedex_part1.ui.events.OnItemClickedListener
 }*/
 
 class PokemonsAdapter(
+    private val itemClickedListener: OnItemClickedListener? = null,
 ) : PagingDataAdapter<Pokemon, PokemonsAdapter.ViewHolder>(POKEMON_DIFF_CALLBACK){
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val viewBinding = ItemPokemonBinding.bind(itemView)
-        fun bindView(item: Pokemon) {
-            viewBinding.pokemon = item
+        fun bindView(pk: Pokemon, itemClickedListener: OnItemClickedListener?) {
+            viewBinding.pokemon = pk
+            itemView.setOnClickListener{
+                itemClickedListener?.invoke(pk)
+            }
         }
     }
 
@@ -74,7 +78,7 @@ class PokemonsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         if (item != null) {
-            holder.bindView(item)
+            holder.bindView(item, itemClickedListener)
         }
     }
 

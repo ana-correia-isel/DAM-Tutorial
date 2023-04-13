@@ -10,6 +10,6 @@ tools:context=".ui.pokedex.PokedexFragment">
 <FrameLayout
     android:id="@+id/pokemon_list_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"/>
 
 </RelativeLayout>

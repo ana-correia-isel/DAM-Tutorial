@@ -56,7 +56,7 @@ class PokemonPagingSource(
         }
 
         // Simulate a delay for loads adter the initial load
-        delay(LOAD_DELAY_MILLIS)
+       // delay(LOAD_DELAY_MILLIS)
 
         return LoadResult.Page(
             data = data,
