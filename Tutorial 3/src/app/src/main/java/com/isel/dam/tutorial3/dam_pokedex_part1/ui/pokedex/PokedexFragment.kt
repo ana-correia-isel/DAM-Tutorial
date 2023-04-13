@@ -1,16 +1,16 @@
 package com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokedex
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.isel.dam.tutorial3.dam_pokedex_part1.R
 import com.isel.dam.tutorial3.dam_pokedex_part1.databinding.FragmentPokedexBinding
-import com.isel.dam.tutorial3.dam_pokedex_part1.databinding.FragmentSlideshowBinding
+import com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokemon.PokemonsFragment
 import com.isel.dam.tutorial3.dam_pokedex_part1.ui.slideshow.SlideshowViewModel
+
 
 class PokedexFragment : Fragment() {
 
@@ -28,12 +28,14 @@ class PokedexFragment : Fragment() {
         _binding = FragmentPokedexBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-      /*  val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }*/
+        val childFragment = PokemonsFragment()
+        childFragmentManager.beginTransaction()
+            .add(R.id.pokemon_list_fragment, childFragment)
+            .commit()
+
         return root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

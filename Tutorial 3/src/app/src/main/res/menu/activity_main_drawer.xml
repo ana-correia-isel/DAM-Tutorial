@@ -10,9 +10,9 @@
             android:icon="@drawable/ic_region"
             android:title="@string/menu_regions" />
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:id="@+id/nav_pokedex"
+            android:icon="@drawable/ic_pokedex"
+            android:title="@string/menu_pokedex" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"

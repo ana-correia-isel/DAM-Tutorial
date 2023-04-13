@@ -7,6 +7,8 @@ import kotlin.random.Random
 
 object PokemonMockData {
 
+    private val POKEMONS_SIZE = 100
+
     private var pokemonDetailDescription: String = "Pokem ipsum dolor " +
             "sit amet Crustle Grotle" +
             " Dragonair Palkia Shellder Terrakion. " +
@@ -51,7 +53,16 @@ object PokemonMockData {
         PokemonType(18,"steel", R.drawable.steel, R.color.steel)
     )
 
-    var pokemons = listOf(
+    var pokemons = (1..POKEMONS_SIZE).map {
+        Pokemon(it,
+            "bulbasaur",
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master" +
+                    "/sprites/pokemon/other/official-artwork/${it}.png",
+            regions.random(), pokemonTypeMock.asSequence().shuffled().take(2).toList()
+           )
+    }
+
+    /*var pokemons = listOf(
         Pokemon(1,
             "bulbasaur",
             "https://raw.githubusercontent.com/PokeAPI/sprites/master" +
@@ -151,7 +162,8 @@ object PokemonMockData {
             regions[0],
             pokemonTypeMock.take(2)),
 
-        )
+
+        )*/
 
     var pokemonDetail = pokemons.map {
         PokemonDetail(
