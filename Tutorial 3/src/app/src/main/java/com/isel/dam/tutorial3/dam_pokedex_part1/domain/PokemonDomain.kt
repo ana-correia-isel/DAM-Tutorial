@@ -12,11 +12,15 @@ import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonDetail
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonRegion
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonType
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.paging.PokemonPagingSource
+import com.isel.dam.tutorial3.dam_pokedex_part1.di.PokemonContainer
 
 class PokemonDomain
 {
+
+
     fun getAllRegions() : LiveData<List<PokemonRegion>>
     {
+
         return MutableLiveData<List<PokemonRegion>>(PokemonMockData.regions)
     }
     

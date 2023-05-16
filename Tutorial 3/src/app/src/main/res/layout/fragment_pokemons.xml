@@ -41,7 +41,8 @@
         android:id="@+id/append_progress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
+        android:indeterminate="false"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

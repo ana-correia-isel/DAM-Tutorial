@@ -6,6 +6,8 @@ import androidx.annotation.DrawableRes
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PokemonType(var id: Int, var name:String,
+data class PokemonType(var id: Int,
+                       var name:String,
                        @DrawableRes val icon: Int,
-                       @ColorRes val color: Int) : Parcelable
+                       @ColorRes val color: Int)
+    : Parcelable

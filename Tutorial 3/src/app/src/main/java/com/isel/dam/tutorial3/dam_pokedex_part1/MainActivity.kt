@@ -1,5 +1,8 @@
 package com.isel.dam.tutorial3.dam_pokedex_part1
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController

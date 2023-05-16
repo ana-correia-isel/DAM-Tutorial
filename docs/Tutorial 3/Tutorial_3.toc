@@ -12,17 +12,23 @@
 \contentsline {subsubsection}{\numberline {4.1.6}WorkManager}{7}{subsubsection.4.1.6}%
 \contentsline {section}{\numberline {5}MVVM in android}{7}{section.5}%
 \contentsline {section}{\numberline {6}Let's Start}{8}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Basic Data Layer and Basic Domain}{11}{subsection.6.1}%
-\contentsline {section}{\numberline {7}First Feature - Region List}{12}{section.7}%
+\contentsline {subsection}{\numberline {6.1}Basic Data Layer and Basic Domain}{12}{subsection.6.1}%
+\contentsline {section}{\numberline {7}First Feature - Region List}{13}{section.7}%
 \contentsline {subsection}{\numberline {7.1}RecyclerView}{13}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2}Data Binding}{21}{subsection.7.2}%
-\contentsline {section}{\numberline {8}Pokemon List}{24}{section.8}%
+\contentsline {section}{\numberline {8}Pokemon List}{25}{section.8}%
 \contentsline {subsection}{\numberline {8.1}Pokemons Fragment and ViewModel}{31}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Navigation Android}{32}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Modify Region Fragment and Adapter to navigato to Pokemons List}{34}{subsection.8.3}%
-\contentsline {section}{\numberline {9}Pokemon Detail}{37}{section.9}%
-\contentsline {section}{\numberline {10}Extras}{37}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Add Search in Pokemon List}{37}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Add Filters in Pokemon List}{37}{subsection.10.2}%
-\contentsline {section}{\numberline {A}Model Classes}{37}{appendix.A}%
-\contentsline {section}{\numberline {B}Data Mock Object}{38}{appendix.B}%
+\contentsline {subsection}{\numberline {8.2}Navigation Android}{34}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Modify Region Fragment and Adapter to navigato to Pokemons List}{35}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Pokemon Detail}{38}{section.9}%
+\contentsline {section}{\numberline {10}Extras}{39}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Add Search in Pokemon List}{39}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Add Filters in Pokemon List}{39}{subsection.10.2}%
+\contentsline {section}{\numberline {A}Model Classes}{39}{appendix.A}%
+\contentsline {section}{\numberline {B}Data Mock Object}{40}{appendix.B}%
+\contentsline {section}{\numberline {C}Pokemon Detail Code}{43}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}Pokemon Evolution Item XML}{43}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Pokemon Evolution Adapter}{45}{subsection.C.2}%
+\contentsline {subsection}{\numberline {C.3}Pokemon Type Item XML}{46}{subsection.C.3}%
+\contentsline {subsection}{\numberline {C.4}Pokemon Detail XML}{47}{subsection.C.4}%
+\contentsline {subsection}{\numberline {C.5}Pokemon Detail Fragment}{59}{subsection.C.5}%

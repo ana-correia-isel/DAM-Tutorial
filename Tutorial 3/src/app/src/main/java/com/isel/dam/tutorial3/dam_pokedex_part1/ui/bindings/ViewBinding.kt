@@ -33,6 +33,8 @@ object ViewBinding {
     @JvmStatic
     @BindingAdapter("android:src")
     fun setImageResource(imageView: AppCompatImageView, resource: Int) {
+        if(resource == 0)
+            return
         imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context,resource))
     }
 
@@ -41,6 +43,8 @@ object ViewBinding {
     @BindingAdapter("app:cardBackgroundColorType")
     fun setCardBackgroundColor(carview: CardView, resource: Int)
     {
+        if(resource == 0)
+            return
         carview.setCardBackgroundColor(ContextCompat.getColor(carview.context,resource))
     }
 

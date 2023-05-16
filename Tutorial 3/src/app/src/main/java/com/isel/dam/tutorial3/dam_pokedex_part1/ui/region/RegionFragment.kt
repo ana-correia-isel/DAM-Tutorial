@@ -1,5 +1,6 @@
 package com.isel.dam.tutorial3.dam_pokedex_part1.ui.region
 
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.isel.dam.tutorial3.dam_pokedex_part1.BuildConfig
+import com.isel.dam.tutorial3.dam_pokedex_part1.PokemonApplication
 import com.isel.dam.tutorial3.dam_pokedex_part1.R
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonRegion
 import com.isel.dam.tutorial3.dam_pokedex_part1.databinding.FragmentRegionBinding
@@ -29,6 +32,8 @@ class RegionFragment : Fragment() {
     ): View {
         _regionViewModel =
             ViewModelProvider(this)[RegionViewModel::class.java]
+
+        _regionViewModel!!.initViewMode((activity?.application as PokemonApplication).pkContainer.regionRepository)
 
         _binding = FragmentRegionBinding.inflate(inflater, container, false)
 

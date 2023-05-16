@@ -1,9 +1,9 @@
 # Fdb version 3
-["pdflatex"] 1681400749 "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3/Tutorial_3.tex" "Tutorial_3.pdf" "Tutorial_3" 1681400752
+["pdflatex"] 1682624277 "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3/Tutorial_3.tex" "Tutorial_3.pdf" "Tutorial_3" 1682624281
   "../Resources/LogoISEL.pdf" 1614961816 10594 097d044d0f2e5ec21dae38e0e68b867e ""
   "../Resources/TutsSettings.tex" 1619452052 3359 bcbce98b7e5ba61a9aa3c4898903eee7 ""
   "../Resources/TutsTitlePageTOCAndPrepare.tex" 1614961816 1789 fed0bf884fb9dc916e3c623a03f37830 ""
-  "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3/Tutorial_3.tex" 1681400745 93733 2909cf5bce0421b770ded8b76cc8ba6e ""
+  "/Volumes/WorkHD/Isel/2022-2023-SV/DAM/Jetpack/DAM-Tutorial/docs/Tutorial 3/Tutorial_3.tex" 1682624272 146446 7c61a7830dbe335c7abafa8c0aeb71da ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/inconsolata/i4-ot1-0.enc" 1561323594 2496 4d35740f3a177992ff7b134746c0a1db ""
@@ -187,11 +187,11 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1681300748 2826442 5e8f69fe8979e1fc4255c7abe5bd3816 ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "Tutorial_3.aux" 1681400752 14333 496430891f0180d2af44d8bcca907840 "pdflatex"
-  "Tutorial_3.lof" 1681400752 870 10c2c2f6b02f57e1dec721a53b01ac39 "pdflatex"
-  "Tutorial_3.out" 1681400752 3829 8965c0716bb36e8edef1272d6689d5f6 "pdflatex"
-  "Tutorial_3.tex" 1681400745 93733 2909cf5bce0421b770ded8b76cc8ba6e ""
-  "Tutorial_3.toc" 1681400752 2224 6ab375b680207fd10ac5c13e88fac481 "pdflatex"
+  "Tutorial_3.aux" 1682624280 18745 7941c622da263ade141757b8eba52e5d "pdflatex"
+  "Tutorial_3.lof" 1682624280 1093 8470d943ca414a9dbd2bd62fa1190514 "pdflatex"
+  "Tutorial_3.out" 1682624280 4871 354191cf9bd036092b6e5b49c8faed90 "pdflatex"
+  "Tutorial_3.tex" 1682624272 146446 7c61a7830dbe335c7abafa8c0aeb71da ""
+  "Tutorial_3.toc" 1682624280 2749 e6d4fbc9119a3ad0784097b859e442e0 "pdflatex"
   "imgs/jetpack.png" 1619021601 396113 7f75e2bdadded95a0f56c2443d8e4d0e ""
   "imgs/jetpackCover.png" 1619453142 25620 665f6d23c12d6e74eeb01f061ed28f00 ""
   "imgs/nav_xml.png" 1681232999 111384 b6b7db04c2efb0fcf816a6e7918e1603 ""
@@ -199,6 +199,8 @@
   "imgs/project/project_template.png" 1681120328 135222 62e7c906c4fecccd48735835e5ccf3a8 ""
   "imgs/region_screen.png" 1681135755 2750386 9318f2dfaca2f373b64882233ada9adc ""
   "imgs/screens/screen_pokemon_detail.png" 1681400556 392978 f00db89e146dfacf318755475bcd60a8 ""
+  "imgs/screens/screen_pokemon_detail_1.png" 1681407383 400042 558cdd3165b67d44c621e34f432248f0 ""
+  "imgs/screens/screen_pokemon_detail_2.png" 1681407408 137194 2ab78aaa0126aa347310a4a83eb9c1e7 ""
   "imgs/screens/screen_pokemons.png" 1681400538 690029 5f398ef5a3422ff2aa0d179f3e7fdd34 ""
   "imgs/screens/screen_region.png" 1681400521 3079450 2327c1b00d7aaebf0c681eec1a10070e ""
   (generated)

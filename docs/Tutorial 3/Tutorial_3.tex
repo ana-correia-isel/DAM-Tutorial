@@ -359,7 +359,7 @@ Here's how MVVM can be implemented in Clean Architecture in an Android app using
 
 \section{Let's Start}
 
-n this tutorial, the focus will be mainly on the Presentation layer, although for testability, the base model of the application will be implemented, and fictitious (mock) data and some rules will be used in the Domain layer. In Tutorial 4, the focus will be on the Model and Domain layers.
+In this tutorial, the focus will be mainly on the Presentation layer, although for testability, the base model of the application will be implemented, and fictitious (mock) data and some rules will be used in the Domain layer. In Tutorial 4, the focus will be on the Model and Domain layers.
 
 First, create a new project using the "Navigation Drawer Activity" template, which will create an application with a hamburger menu.
 
@@ -413,8 +413,37 @@ Before analyzing the project, you can delete some parts that will not be necessa
 
     \item  Delete the \texttt{\detokenize{/menu/main.xml}} file.
     
-    \item In the \texttt{\detokenize{mobile_navigation/app_bar_main.xml}} file, only the following code should remain.
+    \item In the \texttt{\detokenize{layout/app_bar_main.xml}} file, only the following code should remain.
     
+
+    \begin{lstlisting}[caption={App Bar Code.}, label={layout:app_bar_main_code}, language=XML]
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+    
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.DAMPokedexPart1.AppBarOverlay">
+    
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.DAMPokedexPart1.PopupOverlay" />
+    
+        </com.google.android.material.appbar.AppBarLayout>
+    
+        <include layout="@layout/content_main" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+\end{lstlisting}
+
 \end{enumerate}
 
 In the Moodle, you will find a zip file with the resources that will be used in the project.
@@ -472,7 +501,7 @@ Add to AndroidManifest the following lines:
 
 So let's start to implement the Pokedex APP 
 
-And create a the following packages(Figure~\ref{fig:pj_packges}):
+And create the following packages(Figure~\ref{fig:pj_packges_clean_architecture}):
 
 \begin{enumerate}
 	\item ui - Contains all the classes of UI (Fragments and ViewModels).
@@ -484,7 +513,7 @@ And create a the following packages(Figure~\ref{fig:pj_packges}):
 	\centering
 	\includegraphics[height=7cm]{imgs/project/project_packges.png}
 	\caption{Project packages}
-	\label{fig:pj_packges}
+	\label{fig:pj_packges_clean_architecture}
 \end{figure}
 
 
@@ -1024,7 +1053,7 @@ For example in Region item Layout, you can bind a string to a \textit{regionIdTe
             android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@{region.id.toString()}"
+            android:text="@{Integer.toString(region.id)}"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -1409,6 +1438,8 @@ The function has two parameters:
 Inside the function, the ContextCompat.getColor method is used to retrieve the color value associated with the given resource ID from the context of the CardView (carview.context).
 This color value is then passed to the setCardBackgroundColor method of the CardView (carview) to set the background color accordingly.
 
+
+
 \subsection{Pokemons Fragment and ViewModel}
 
 Create a new Fragment \textit{PokemonsFragment} with ViewModel and go to \textit{\texttt{\detokenize{fragment_pokemons.xml}}} and create a RecyclerView.
@@ -1491,6 +1522,51 @@ Create a new Fragment \textit{PokemonsFragment} with ViewModel and go to \textit
         return listPokemons
     }
 }
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Pokemons Adapter code.}, label={code:code_pokemons_adapter}, language=Kotlin]
+    class PokemonsAdapter(
+        private val pokemonList: List<Pokemon>,
+        private val context: Context
+    ) : RecyclerView.Adapter<PokemonsAdapter.ViewHolder>() {
+    
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private val viewBinding = ItemPokemonBinding.bind(itemView)
+            fun bindView(item: Pokemon) {
+                viewBinding.pokemon = item
+            }
+        }
+    
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    
+            val inflater = LayoutInflater.from(context)
+            val view = inflater.inflate(R.layout.item_pokemon, parent, false)
+    
+    
+            return ViewHolder(view)
+        }
+    
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val item = pokemonList[position]
+            holder.bindView(item)
+        }
+    
+        override fun getItemCount(): Int {
+            return pokemonList.size
+        }
+    
+        companion object {
+            private val POKEMON_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Pokemon>() {
+                override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean =
+                    oldItem.id == newItem.id
+    
+                override fun areContentsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean =
+                    oldItem == newItem
+            }
+        }
+    
+    }
 \end{lstlisting}
 
 
@@ -1687,6 +1763,25 @@ To obtain the region that was passed as a parameter in PokemonsFragment, we adde
 
 \section{Pokemon Detail}
 
+Create the Pokemon detail screen and add the Pokemon list screen navigation to the Pokemon detail screen. 
+All the code for this screen and the necessary changes for navigation are attached.
+\textbf{Note}: The representation of the Pokemon Evolution Chain is displayed in a Recycle View.
+
+\begin{figure}
+	\centering
+	\includegraphics[height=10cm]{imgs/screens/screen_pokemon_detail_1.png}
+	\caption{Screen Pokemon Detail 1.}
+	\label{fig:screen_pk_detail_1}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[height=10cm]{imgs/screens/screen_pokemon_detail_2.png}
+	\caption{Screen Pokemon Detail 2.}
+	\label{fig:screen_pk_detail_2}
+\end{figure}
+
+
 \section{Extras}
 
 \subsection{Add Search in Pokemon List}
@@ -1712,16 +1807,18 @@ To obtain the region that was passed as a parameter in PokemonsFragment, we adde
 \label{appendix:modelClass}
 
 \begin{lstlisting}[caption={Pokemon Data Class.}, label={code:pk_class}, language=Kotlin]
+    @Parcelize
     data class Pokemon(
         var id: Int,
         var name:String,
         var imageUrl: String,
         var region: PokemonRegion?,
         var types: List<PokemonType>
-    ) 
+    ) : Parcelable
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Pokemon Detail Data Class.}, label={code:pk_detail_class}, language=Kotlin]
+    @Parcelize
     data class PokemonDetail(
         var pokemon: Pokemon,
         var description: String,
@@ -1730,25 +1827,27 @@ To obtain the region that was passed as a parameter in PokemonsFragment, we adde
         var height: Double?,
         var stats: PokemonStats?,
         var evolution: List<PokemonEvolution>?
-    )
+    ): Parcelable
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Pokemon Region Data Class.}, label={code:pk_region_class}, language=Kotlin]
+    @Parcelize
     data class PokemonRegion(
         var id:Int, 
         var name: String,
         @DrawableRes val bg: Int,
         @DrawableRes val starters: Int
-    ) 
+    ) : Parcelable
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Pokemon Type Data Class.}, label={code:pk_type_class}, language=Kotlin]
+    @Parcelize
     data class PokemonType(
         var id: Int, 
         var name:String,
         @DrawableRes val icon: Int,
-        @ColorRes val color: Int) 
-) 
+        @ColorRes val color: Int)  : Parcelable
+
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Pokemon Stats Data Class.}, label={code:pk_stats_class}, language=Kotlin]
@@ -1766,7 +1865,7 @@ To obtain the region that was passed as a parameter in PokemonsFragment, we adde
         var maxDefense: Int= 300,
         var maxSpecialDefense: Int= 300,
         var maxExp: Int= 300)
-    ) 
+    
 \end{lstlisting}
 
 \begin{lstlisting}[caption={Pokemon Stats Data Class.}, label={code:pk_evolution_class}, language=Kotlin]
@@ -1952,8 +2051,1175 @@ To obtain the region that was passed as a parameter in PokemonsFragment, we adde
 }
 \end{lstlisting}
 
+\section{Pokemon Detail Code}
+\label{appendix:pk_detail}
 
+\subsection{Pokemon Evolution Item XML}
+
+\begin{lstlisting}[caption={Pokemon Evolution Item Layout.}, label={layout:pk_evolution}, language=XML]
+    <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="evolution"
+            type="com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonEvolution" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/pk_detail_general_text"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/bgEvolution"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:padding="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/SpecificCornerRounded" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/poison"
+                    app:paletteImage="@{evolution.pokemon.imageUrl}"
+                    app:paletteShapeableImageView="@{bgEvolution}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/bgEvolution"
+                    app:layout_constraintStart_toStartOf="@+id/bgEvolution"
+                    app:layout_constraintTop_toTopOf="@+id/bgEvolution">
+
+                </androidx.appcompat.widget.AppCompatImageView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/pkNameTextView"
+                    android:layout_width="83dp"
+
+                    style="@style/EvalutionTitleStyle"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="@{evolution.pokemon.name}"
+                    tools:text="Ivysaur"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/pkIdTextView"
+                    style="@style/EvalutionSubTitleStyle"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@{Integer.toString(evolution.pokemon.id)}"
+                    tools:text="#100"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+\end{lstlisting}
+
+
+\subsection{Pokemon Evolution Adapter}
+
+\begin{lstlisting}[caption={Pokemon Evolution Adapter.}, label={code:pk_evolution_adapter}, language=Kotlin]
+
+    class EvolutionAdapter(
+    private val list: List<PokemonEvolution>,
+    private val context: Context
+) : RecyclerView.Adapter<EvolutionAdapter.ViewHolder>() {
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val viewBinding = ItemEvolutionBinding.bind(itemView)
+        fun bindView(item: PokemonEvolution) {
+            viewBinding.evolution = item
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.item_evolution, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = list[position]
+        holder.bindView(item)
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
+}
+\end{lstlisting}  
+
+
+\subsection{Pokemon Type Item XML}
+
+\begin{lstlisting}[caption={Pokemon Type Item Layout.}, label={layout:pk_type}, language=XML]
+
+    <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="type"
+            type="com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonType" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/TypeCheckButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center_horizontal"
+            android:layout_marginStart="2dp"
+            android:text="@{type.name}"
+            app:backgroundTint="@{type.color}"
+            app:icon="@{type.icon}"
+            app:iconTint="@color/white"
+            android:checkable="true"
+            android:textColor="@color/white"
+            app:iconSize="15dp"
+            tools:icon="@drawable/poison"
+            tools:text="poison"
+            tools:backgroundTint="@color/poison"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>
+
+
+\end{lstlisting}  
+
+\begin{lstlisting}[caption={Pokemon Type Adapter code.}, label={code:pk_type_adapter}, language=Kotlin]
+
+    class TypeAdapter(
+    private val list: List<PokemonType>,
+    private val context: Context
+) : RecyclerView.Adapter<TypeAdapter.ViewHolder>() {
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val viewBinding = ItemTypeDetailBinding.bind(itemView)
+        fun bindView(item: PokemonType) {
+            viewBinding.type = item
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.item_type_detail, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = list[position]
+        holder.bindView(item)
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
+}
+
+
+\end{lstlisting}  
+
+\subsection{Pokemon Detail XML}
+
+
+
+\begin{lstlisting}[caption={Pokemon Detail Layout.}, label={layout:pk_detail}, language=XML]
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ui.regions.RegionsFragment"
+        android:background="@color/black_95">
+    
+        <data>
+    
+            <variable
+                name="pokemon"
+                type="com.isel.dam.tutorial3.dam_pokedex_part1.data.model.Pokemon" />
+    
+            <variable
+                name="pkDetail"
+                type="com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonDetail" />
+    
+        </data>
+    
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+    
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="32dp"
+                android:descendantFocusability="blocksDescendants">
+    
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="6dp"
+                    android:translationZ="100dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/header"
+                    app:onBackPressed="@{true}"
+                    app:srcCompat="@drawable/ic_arrow" />
+    
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:layout_marginStart="12dp"
+                    android:text="@{Integer.toString(pokemon.id)}"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:translationZ="100dp"
+                    app:layout_constraintEnd_toEndOf="@id/header"
+                    app:layout_constraintTop_toTopOf="@id/header"
+                    tools:text="#001" />
+    
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/name"
+                    style="@style/TitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@{pokemon.name}"
+                    android:translationZ="100dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/header"
+                    tools:text="Bulbasaur" />
+    
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:background="@color/bug"
+                    android:elevation="9dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CardView" />
+    
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image"
+                    android:layout_width="190dp"
+                    android:layout_height="190dp"
+                    android:layout_marginBottom="20dp"
+                    android:scaleType="center"
+                    android:translationZ="100dp"
+                    app:layout_constraintBottom_toBottomOf="@id/header"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:paletteImage="@{pokemon.imageUrl}"
+                    app:paletteView="@{header}"/>
+    
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name">
+    
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/typeListView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="6dp"
+                        app:layoutManager="LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:listitem="@layout/item_type_detail">
+    
+                    </androidx.recyclerview.widget.RecyclerView>
+    
+                </androidx.constraintlayout.widget.ConstraintLayout>
+    
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView"
+                    style="@style/DescriptionStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:ellipsize="end"
+                    android:minLines="1"
+                    android:text="@{pkDetail.description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada enim ac dapibus ornare. Nam imperdiet, turpis eget hendrerit viverra, nulla elit iaculis nibh, eget facilisis mi lorem at augue. Sed quis consectetur lacus, aliquet laoreet nisl. In quis sem tellus. Maecenas tincidunt viverra nisl, sed porta nibh semper ac. Phasellus in lacus at eros lacinia scelerisque sed vitae justo. Fusce mauris tellus, euismod et ultrices id, maximus nec odio. Maecenas ac venenatis sapien. Maecenas vitae vehicula ligula. Nam ac malesuada turpis."></androidx.appcompat.widget.AppCompatTextView>
+    
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView">
+    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+    
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+    
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+    
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoTitleStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_weight"
+                                    android:drawableTint="@color/white"
+                                    android:text="@string/title_weight" />
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoStyle"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/pk_detail_general_text"
+                                    android:text="@{Double.toString(pkDetail.weight)}"
+                                    tools:text="12Kg">
+    
+                                </androidx.appcompat.widget.AppCompatTextView>
+                            </LinearLayout>
+    
+                            <Space
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content" />
+    
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoTitleStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableTint="@color/white"
+                                    android:drawableLeft="@drawable/ic_height"
+                                    android:text="@string/title_height" />
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoStyle"
+                                    android:layout_width="120dp"
+    
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/pk_detail_general_text"
+                                    android:text="@{Double.toString(pkDetail.height)}"
+                                    tools:text="12Kg">
+    
+                                </androidx.appcompat.widget.AppCompatTextView>
+                            </LinearLayout>
+    
+                        </LinearLayout>
+    
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp" />
+    
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+    
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoTitleStyle"
+                                    android:drawableTint="@color/white"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_category"
+                                    android:text="@string/title_category" />
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoStyle"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/pk_detail_general_text"
+                                    android:text="@{Double.toString(pkDetail.height)}"
+                                    tools:text="12Kg">
+    
+                                </androidx.appcompat.widget.AppCompatTextView>
+                            </LinearLayout>
+    
+                            <Space
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content" />
+    
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoTitleStyle"
+                                    android:drawableTint="@color/white"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@drawable/ic_ability"
+                                    android:text="@string/title_ability" />
+    
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    style="@style/BaseInfoStyle"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/pk_detail_general_text"
+                                    android:text="@{Double.toString(pkDetail.height)}"
+                                    tools:text="12Kg">
+    
+                                </androidx.appcompat.widget.AppCompatTextView>
+                            </LinearLayout>
+    
+                        </LinearLayout>
+                    </LinearLayout>
+    
+    
+                </androidx.constraintlayout.widget.ConstraintLayout>
+    
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+    
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/stats_title"
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_stats"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+    
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/hp"
+                        style="@style/DetailStatsStyle"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/title_hp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/stats_title" />
+    
+                    <com.skydoves.progressview.ProgressView
+                        android:id="@+id/progress_hp"
+                        android:layout_width="0dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/hp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/hp"
+                        app:layout_constraintTop_toTopOf="@id/hp"
+                        app:progressView_colorBackground="@color/white"
+                        app:progressView_colorProgress="@color/bug"
+                        app:progressView_labelColorInner="@color/black"
+                        app:progressView_labelColorOuter="@color/black"
+                        app:progressView_labelSize="12sp"
+                        app:progressView_labelText="@{pkDetail.stats.hp}"
+                        app:progressView_max="@{pkDetail.stats.maxHp}"
+                        app:progressView_progress="@{pkDetail.stats.hp}"
+                        app:progressView_radius="12dp" />
+    
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/attack"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/title_atk"
+                        style="@style/DetailStatsStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hp" />
+    
+                    <com.skydoves.progressview.ProgressView
+                        android:layout_width="0dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/attack"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/progress_hp"
+                        app:layout_constraintTop_toTopOf="@id/attack"
+                        app:progressView_colorBackground="@color/white"
+                        app:progressView_colorProgress="@color/md_orange_100"
+                        app:progressView_labelColorInner="@color/black"
+                        app:progressView_labelColorOuter="@color/black"
+                        app:progressView_labelSize="12sp"
+                        app:progressView_labelText="@{pkDetail.stats.attack}"
+                        app:progressView_max="@{pkDetail.stats.maxAttack}"
+                        app:progressView_progress="@{pkDetail.stats.attack}"
+                        app:progressView_radius="12dp" />
+    
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/defense"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/title_def"
+                        style="@style/DetailStatsStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/attack" />
+    
+                    <com.skydoves.progressview.ProgressView
+                        android:layout_width="0dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/defense"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/progress_hp"
+                        app:layout_constraintTop_toTopOf="@id/defense"
+                        app:progressView_colorBackground="@color/white"
+                        app:progressView_colorProgress="@color/md_blue_200"
+                        app:progressView_labelColorInner="@color/white"
+                        app:progressView_labelColorOuter="@color/black"
+                        app:progressView_labelSize="12sp"
+                        app:progressView_labelText="@{pkDetail.stats.defense}"
+                        app:progressView_max="@{pkDetail.stats.maxDefense}"
+                        app:progressView_progress="@{pkDetail.stats.defense}"
+                        app:progressView_radius="12dp" />
+    
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/speed"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/title_spd"
+                        style="@style/DetailStatsStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/defense" />
+    
+                    <com.skydoves.progressview.ProgressView
+                        android:layout_width="0dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/speed"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/progress_hp"
+                        app:layout_constraintTop_toTopOf="@id/speed"
+                        app:progressView_colorBackground="@color/white"
+                        app:progressView_colorProgress="@color/flying"
+                        app:progressView_labelColorInner="@color/white"
+                        app:progressView_labelColorOuter="@color/black"
+                        app:progressView_labelSize="12sp"
+                        app:progressView_labelText="@{pkDetail.stats.speed}"
+                        app:progressView_max="@{pkDetail.stats.maxSpeed}"
+                        app:progressView_progress="@{pkDetail.stats.speed}"
+                        app:progressView_radius="12dp" />
+    
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/exp"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/title_exp"
+                        style="@style/DetailStatsStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/speed" />
+    
+                    <com.skydoves.progressview.ProgressView
+                        android:layout_width="0dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/exp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/progress_hp"
+                        app:layout_constraintTop_toTopOf="@id/exp"
+                        app:progressView_colorBackground="@color/white"
+                        app:progressView_colorProgress="@color/md_green_200"
+                        app:progressView_labelColorInner="@color/white"
+                        app:progressView_labelColorOuter="@color/black"
+                        app:progressView_labelSize="12sp"
+                        app:progressView_labelText="@{pkDetail.stats.exp}"
+                        app:progressView_max="@{pkDetail.stats.maxExp}"
+                        app:progressView_progress="@{pkDetail.stats.exp}"
+                        app:progressView_radius="12dp" />
+    
+    
+                </androidx.constraintlayout.widget.ConstraintLayout>
+    
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+    
+    
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_evolutiions"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+    
+    
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/evolutionListView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:padding="6dp"
+                        app:layoutManager="LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:listitem="@layout/item_evolution" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+    
+            </androidx.constraintlayout.widget.ConstraintLayout>
+    
+        </androidx.core.widget.NestedScrollView>
+    
+    </layout>
+
+    
+
+\end{lstlisting}  
+
+\subsection{Pokemon Detail Fragment}
+
+\begin{lstlisting}[caption={Pokemon Detail Fragment code.}, label={code:pk_detail_fragment}, language=XML]
+
+
+class PokemonDetailFragment : Fragment() {
+
+private var _binding: FragmentPokemonDetailBinding? = null
+private val viewModel: PokemonDetailViewModel by viewModels()
+
+private val binding get() = _binding!!
+
+override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+): View {
+    _binding = FragmentPokemonDetailBinding.inflate(inflater, container, false)
+    val root: View = binding.root
+
+    val activity: Activity? = activity
+    if (activity is AppCompatActivity) {
+        // Cast the Activity to AppCompatActivity to access the toolbar
+        val appCompatActivity = activity
+        // Hide the toolbar
+        if (appCompatActivity.supportActionBar != null) {
+            appCompatActivity.supportActionBar!!.hide()
+        }
+    }
+
+    return root
+}
+
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    val pokemon = checkNotNull(arguments?.getParcelable("pokemon", Pokemon::class.java))
+
+    binding.pokemon = pokemon
+    viewModel.getPokemonDetail(pokemon).observe(viewLifecycleOwner, Observer {
+        binding.pkDetail = it
+
+        binding.typeListView.layoutManager = LinearLayoutManager(
+            view.context,
+            LinearLayoutManager.HORIZONTAL,false
+        )
+
+        binding.typeListView.adapter = TypeAdapter(pokemon.types,view.context)
+
+        binding.typeListView.addItemDecoration(EqualSpacingItemDecoration(30, EqualSpacingItemDecoration.HORIZONTAL));
+
+        binding.evolutionListView.adapter = EvolutionAdapter(it.evolution!!,view.context)
+
+        binding.evolutionListView.addItemDecoration(EqualSpacingItemDecoration(30, EqualSpacingItemDecoration.VERTICAL));
+    })
+
+}
+
+
+override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+
+    val activity: Activity? = activity
+    if (activity is AppCompatActivity) {
+        // Cast the Activity to AppCompatActivity to access the toolbar
+        val appCompatActivity = activity
+        // Hide the toolbar
+        if (appCompatActivity.supportActionBar != null) {
+            appCompatActivity.supportActionBar!!.show()
+        }
+    }
+}
+
+
+}
+
+    
+
+\end{lstlisting}  
+
+
+\begin{lstlisting}[caption={EqualSpacingItemDecoration class.}, label={code:equalSpacingItemDecoration_class}, language=Kotlin]
+
+    class EqualSpacingItemDecoration @JvmOverloads constructor(
+    private val spacing: Int,
+    private var displayMode: Int = -1
+) :
+    ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        val position = parent.getChildViewHolder(view).adapterPosition
+        val itemCount = state.itemCount
+        val layoutManager = parent.layoutManager
+        setSpacingForDirection(outRect, layoutManager, position, itemCount)
+    }
+
+    private fun setSpacingForDirection(
+        outRect: Rect,
+        layoutManager: RecyclerView.LayoutManager?,
+        position: Int,
+        itemCount: Int
+    ) {
+
+        // Resolve display mode automatically
+        if (displayMode == -1) {
+            displayMode = resolveDisplayMode(layoutManager)
+        }
+        when (displayMode) {
+            HORIZONTAL -> {
+                outRect.left = spacing
+                outRect.right = if (position == itemCount - 1) spacing else 0
+                outRect.top = spacing
+                outRect.bottom = spacing
+            }
+            VERTICAL -> {
+                outRect.left = spacing
+                outRect.right = spacing
+                outRect.top = spacing
+                outRect.bottom = if (position == itemCount - 1) spacing else 0
+            }
+            GRID -> if (layoutManager is GridLayoutManager) {
+                val cols = layoutManager.spanCount
+                val rows = itemCount / cols
+                outRect.left = spacing
+                outRect.right = if (position % cols == cols - 1) spacing else 0
+                outRect.top = spacing
+                outRect.bottom = if (position / cols == rows - 1) spacing else 0
+            }
+        }
+    }
+
+    private fun resolveDisplayMode(layoutManager: RecyclerView.LayoutManager?): Int {
+        if (layoutManager is GridLayoutManager) return GRID
+        return if (layoutManager!!.canScrollHorizontally()) HORIZONTAL else VERTICAL
+    }
+
+    companion object {
+        const val HORIZONTAL = 0
+        const val VERTICAL = 1
+        const val GRID = 2
+    }
+}
+
+\end{lstlisting} 
+
+
+\begin{lstlisting}[caption={Pokemon Detail ViewModel.}, label={code:pk_detail_viewmodel}, language=Kotlin]
+
+    class PokemonDetailViewModel : ViewModel() {
+
+    private val pokemonDomain = PokemonDomain()
+
+    private lateinit var pokemon : LiveData<Pokemon>
+
+    private lateinit var pokemonDetail : LiveData<PokemonDetail>
+
+
+    fun getPokemonDetail(pokemon: Pokemon):LiveData<PokemonDetail>
+    {
+        pokemonDetail = pokemonDomain.getPokemonDetail(pokemon)
+        return pokemonDetail
+    }
+
+
+}
+    
+
+\end{lstlisting}  
+
+\begin{lstlisting}[caption={Add New View Adapters on ViewBindings.}, label={code:view_adapters}, language=Kotlin]
+
+    object ViewBinding {
+
+    /**/
+
+    @JvmStatic
+    @BindingAdapter("android:src")
+    fun setImageResource(imageView: AppCompatImageView, resource: Int) {
+        imageView.setImageDrawable(ContextCompat.getDrawable(imageView.context,resource))
+    }
+
+    /**/
+    @JvmStatic
+    @BindingAdapter("app:cardBackgroundColorType")
+    fun setCardBackgroundColor(carview: CardView, resource: Int)
+    {
+        carview.setCardBackgroundColor(ContextCompat.getColor(carview.context,resource))
+    }
+
+    /**/
+    @JvmStatic
+    @BindingAdapter("paletteImage", "paletteCard")
+    fun bindLoadImagePalette(view: AppCompatImageView, url: String, paletteCard: MaterialCardView) {
+        Glide.with(view.context)
+            .asBitmap()
+            .load(url)
+            .listener(object : RequestListener<Bitmap>
+            {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Bitmap>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+
+                    Log.d("TAG", e?.message.toString())
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Bitmap?,
+                    p1: Any?,
+                    p2: com.bumptech.glide.request.target.Target<Bitmap>?,
+                    p3: DataSource?,
+                    p4: Boolean
+                ): Boolean {
+                    Log.d("TAG", "OnResourceReady")
+                    if (resource != null) {
+                        val p: Palette = Palette.from(resource).generate()
+
+                        val rgb = p?.lightMutedSwatch?.rgb
+                        if (rgb != null) {
+                            paletteCard.setCardBackgroundColor(rgb)
+
+
+                        }
+                    }
+                    return false
+                }
+            })
+            .into(view)
+    }
+
+    @JvmStatic
+    @BindingAdapter("paletteImage", "paletteView")
+    fun bindLoadImagePaletteView(view: AppCompatImageView, url: String, paletteView: View) {
+        val context = view.context
+        Glide.with(view.context)
+            .asBitmap()
+            .load(url)
+            .listener(object : RequestListener<Bitmap>
+            {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Bitmap>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+
+                    Log.d("TAG", e?.message.toString())
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Bitmap?,
+                    p1: Any?,
+                    p2: com.bumptech.glide.request.target.Target<Bitmap>?,
+                    p3: DataSource?,
+                    p4: Boolean
+                ): Boolean {
+                    Log.d("TAG", "OnResourceReady")
+
+                    if (resource != null) {
+                        val p: Palette = Palette.from(resource).generate()
+
+                        val rgb = p?.lightMutedSwatch?.rgb
+
+                        val light = p?.lightVibrantSwatch?.rgb
+                        val domain = p?.dominantSwatch?.rgb
+
+                        if (domain != null) {
+                            if (light != null) {
+
+                                val gfgGradient = GradientDrawable(
+                                    GradientDrawable.Orientation.TOP_BOTTOM,
+                                    intArrayOf(
+                                        domain,
+                                        light
+                                    ))
+
+                                paletteView.background = gfgGradient
+
+                                setToolbarColor(context,domain)
+                            } else {
+                                if (rgb != null) {
+                                    paletteView.setBackgroundColor(rgb)
+                                    setToolbarColor(context,rgb)
+                                }
+                            }
+
+                        }
+
+
+                    }
+                    return false
+                }
+            })
+            .into(view)
+    }
+
+    fun setToolbarColor(context: Context,  color:Int)
+    {
+        if (context is AppCompatActivity) {
+            context.window.apply {
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                statusBarColor = color
+
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("paletteImage", "paletteShapeableImageView")
+    fun bindLoadImagePaletteShapeableImageView(view: AppCompatImageView, url: String, paletteShapeableImageView: ShapeableImageView) {
+        val context = view.context
+        Glide.with(view.context)
+            .asBitmap()
+            .load(url)
+            .listener(object : RequestListener<Bitmap>
+            {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Bitmap>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+
+                    Log.d("TAG", e?.message.toString())
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Bitmap?,
+                    p1: Any?,
+                    p2: com.bumptech.glide.request.target.Target<Bitmap>?,
+                    p3: DataSource?,
+                    p4: Boolean
+                ): Boolean {
+                    Log.d("TAG", "OnResourceReady")
+
+                    if (resource != null) {
+                        val p: Palette = Palette.from(resource).generate()
+
+                        val rgb = p?.lightMutedSwatch?.rgb
+
+                        val light = p?.lightVibrantSwatch?.rgb
+                        val domain = p?.dominantSwatch?.rgb
+
+                        if (domain != null) {
+                            if (light != null) {
+
+                                val gfgGradient = GradientDrawable(
+                                    GradientDrawable.Orientation.TOP_BOTTOM,
+                                    intArrayOf(
+                                        domain,
+                                        light
+                                    ))
+
+                                paletteShapeableImageView.background = gfgGradient
+
+                            } else {
+                                if (rgb != null) {
+                                    paletteShapeableImageView.setBackgroundColor(rgb)
+                                }
+                            }
+
+                        }
+
+
+                    }
+                    return false
+                }
+            })
+            .into(view)
+    }
+
+
+    @JvmStatic
+    @BindingAdapter("progressView_progress")
+    fun bindProgressViewProgress(progressView: ProgressView, value: Int?) {
+        if (value != null) {
+            progressView.progress = value.toFloat()
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("progressView_max")
+    fun bindProgressViewMax(progressView: ProgressView, value: Int?) {
+        if (value != null) {
+            progressView.max = value.toFloat()
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("progressView_labelText")
+    fun bindProgressViewLabelText(progressView: ProgressView, value: Int) {
+        progressView.labelText = value.toString()
+    }
+
+    @JvmStatic
+    @BindingAdapter("onBackPressed")
+    fun bindOnBackPressed(view: View, onBackPress: Boolean) {
+        val context = view.context
+        if (onBackPress && context is OnBackPressedDispatcherOwner) {
+            view.setOnClickListener {
+                context.onBackPressedDispatcher.onBackPressed()
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:backgroundTint")
+    fun bindBackgroundColor(view: MaterialButton, resource: Int)
+    {
+        view.background.setTint(ContextCompat.getColor(view.context,resource))
+    }
+}
+
+    
+
+\end{lstlisting}  
+
+\begin{lstlisting}[caption={Pokemon Detail Layout.}, label={layout:pk_detail}, language=XML]
+
+
+    
+
+\end{lstlisting}  
+
+\begin{lstlisting}[caption={Pokemon Detail Layout.}, label={layout:pk_detail}, language=XML]
+
+
+    
+
+\end{lstlisting}  
 \end{document}
+
 
 
 

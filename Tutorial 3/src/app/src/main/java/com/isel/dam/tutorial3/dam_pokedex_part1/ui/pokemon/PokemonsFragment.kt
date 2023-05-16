@@ -16,12 +16,14 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.isel.dam.tutorial3.dam_pokedex_part1.PokemonApplication
 import com.isel.dam.tutorial3.dam_pokedex_part1.R
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.Pokemon
 import com.isel.dam.tutorial3.dam_pokedex_part1.data.model.PokemonRegion
 import com.isel.dam.tutorial3.dam_pokedex_part1.databinding.FragmentPokemonsBinding
 import com.isel.dam.tutorial3.dam_pokedex_part1.ui.events.OnItemClickedListener
 import com.isel.dam.tutorial3.dam_pokedex_part1.ui.pokemondetail.PokemonDetailFragment
+import com.isel.dam.tutorial3.dam_pokedex_part1.ui.region.RegionAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -89,10 +91,12 @@ class PokemonsFragment(
         _binding = FragmentPokemonsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val pkAdapter = PokemonsAdapter( itemClickedListener = {
+
+        //checkNotNull(arguments?.getParcelable("region", PokemonRegion::class.java))
+        viewModel!!.initViewMode((activity?.application as PokemonApplication).pkContainer.pokemonRepository)
 
 
-
+       /* val pkAdapter = PokemonsAdapter( itemClickedListener = {
             if(pkClickListener != null)
             {
                 pkClickListener?.invoke(it)
@@ -140,13 +144,35 @@ class PokemonsFragment(
                     null
                 )*/
         })
-        binding?.pokemonsRecyclerView?.adapter = pkAdapter
-
-
+        binding?.pokemonsRecyclerView?.adapter = pkAdapter*/
 
         val region = arguments?.getParcelable("region", PokemonRegion::class.java)
+        if(region != null)
+        {
+            viewModel.getPokemonsByRegion(region).observe(viewLifecycleOwner) {
+                val pk: List<Pokemon> = it
+                binding?.pokemonsRecyclerView?.adapter = PokemonsAdapterWithoutPager(pk,
+                    itemClickedListener = {pokemon->
 
-        if(region == null)
+                        val bundle = bundleOf(
+                            "pokemon" to it)
+
+                        findNavController().navigate(
+                            R.id.action_nav_pokemons_to_pokemonDetailFragment,
+                            bundle,
+                            null
+                        )
+                    }, requireView().context)
+
+
+            }
+
+            viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+                binding.prependProgress.isVisible = it
+            })
+        }
+
+       /* if(region == null)
         {
             viewModel.getAllPokemonPager().observe(viewLifecycleOwner, Observer {
                 it?.let {
@@ -159,17 +185,17 @@ class PokemonsFragment(
                 it?.let {
                     pkAdapter.submitData(lifecycle, it) }
             })
-        }
+        }*/
 
 
-        lifecycleScope.launch {
+      /*  lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 pkAdapter.loadStateFlow.collect {
                     binding.prependProgress.isVisible = it.source.prepend is LoadState.Loading
                     binding.appendProgress.isVisible = it.source.append is LoadState.Loading
                 }
             }
-        }
+        }*/
 
         return root
     }

@@ -1021,6 +1021,7 @@ INPUT ./imgs/project/project_template.png
 INPUT ./imgs/project/project_template.png
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/inconsolata/ot1-zi4r-0.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/inconsolata/ot1-zi4b-0.tfm
+INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/inconsolata/ot1-zi4b-0.tfm
 INPUT ./imgs/project/project_packges.png
 INPUT ./imgs/project/project_packges.png
 INPUT imgs/project/project_packges.png
@@ -1031,7 +1032,6 @@ INPUT ./imgs/region_screen.png
 INPUT imgs/region_screen.png
 INPUT ./imgs/region_screen.png
 INPUT ./imgs/region_screen.png
-INPUT /usr/local/texlive/2022/texmf-dist/fonts/tfm/public/inconsolata/ot1-zi4b-0.tfm
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
 INPUT /usr/local/texlive/2022/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
@@ -1042,6 +1042,16 @@ INPUT ./imgs/nav_xml.png
 INPUT imgs/nav_xml.png
 INPUT ./imgs/nav_xml.png
 INPUT ./imgs/nav_xml.png
+INPUT ./imgs/screens/screen_pokemon_detail_1.png
+INPUT ./imgs/screens/screen_pokemon_detail_1.png
+INPUT imgs/screens/screen_pokemon_detail_1.png
+INPUT ./imgs/screens/screen_pokemon_detail_1.png
+INPUT ./imgs/screens/screen_pokemon_detail_1.png
+INPUT ./imgs/screens/screen_pokemon_detail_2.png
+INPUT ./imgs/screens/screen_pokemon_detail_2.png
+INPUT imgs/screens/screen_pokemon_detail_2.png
+INPUT ./imgs/screens/screen_pokemon_detail_2.png
+INPUT ./imgs/screens/screen_pokemon_detail_2.png
 INPUT Tutorial_3.aux
 INPUT ./Tutorial_3.out
 INPUT ./Tutorial_3.out
